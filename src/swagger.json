@@ -1,0 +1,203 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Documenting with Swagger",
+    "description": "Creation of the Swagger documentation manually for the Users challenge",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "Returns a list of users",
+        "description": "Returns a list of users",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "required": true,
+            "description": "Id of an admin user",
+            "schema": {
+              "type": "string"            
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON array of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error: User must be admin"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new user",
+        "description": "Create a new user",
+        "requestBody": {
+          "description": "Payload of a user",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/requestBodies/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error: User already exists"
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "summary": "Returns a specific user",
+        "description": "Returns a specific user",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "description": "Id of an user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object of a user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error: Invalid user id"
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "summary": "Set a user as admin",
+        "description": "Set a user as admin",
+        "parameters": [
+          {
+            "name": "user_id",
+            "description": "Id of a user",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {          
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error: Invalid user id"
+          }
+        }
+      }
+    }
+    
+  },
+  "components": {
+    "schemas": {
+      "Users": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "admin": {
+              "type": "boolean"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string"
+            },
+            "updated_at": {
+              "type": "string"
+            }
+          }                    
+        }
+      },
+      "User": {
+        "type": "object",        
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "admin": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }                            
+      }
+    },
+    "requestBodies": {
+      "User": {
+        "type": "object",        
+        "properties": {          
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
